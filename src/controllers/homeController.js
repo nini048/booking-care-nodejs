@@ -2,7 +2,7 @@ import db from "../models/index";
 export const getHomePage = async (req, res) => {
   try {
     let data = await db.User.findAll();
-  
+
     return res.render("homepage.ejs", {
       data: JSON.stringify(data),
     });
@@ -10,4 +10,7 @@ export const getHomePage = async (req, res) => {
     console.log("e: ", e);
   }
 };
+export const getCRUD = async (req, res) => {
+  return await res.render('crud.ejs')
+}
 // export default { getHomePage };
