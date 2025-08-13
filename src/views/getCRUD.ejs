@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
@@ -29,7 +28,7 @@
       <td><%=user.address%></td>
           <td>
             <a href = "/edit-crud?id=<%=user.id%>" type = 'button' class="btn-edit btn btn-outline-secondary">Edit</a>
-            <a class="btn-delete btn btn-outline-danger" type = 'button' >Delete</a>
+            <a href = "/delete-crud?id=<%=user.id%>" class="btn-delete btn btn-outline-danger" type = 'button' >Delete</a>
           </td>
     </tr>
 
