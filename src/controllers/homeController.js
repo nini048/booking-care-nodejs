@@ -27,22 +27,23 @@ export const getEditCRUD = async (req, res) => {
   let userId = req.query.id;
   if (userId) {
     let userData = await CRUDService.getUserInfoById(userId);
-    return res.render('editCRUD.ejs', {userData});
+    return res.render('editCRUD.ejs', { userData });
   } else {
     return res.send("not found user");
   }
 };
 export const putEditCRUD = async (req, res) => {
-let data = req.body
-let allUsers =  await CRUDService.updateUserData(data)
-  return res.render("getCRUD.ejs", { data:allUsers });
+
+  let data = req.body
+  let allUsers = await CRUDService.updateUserData(data)
+  return res.render("getCRUD.ejs", { data: allUsers });
 }
 export const deleteCRUD = async (req, res) => {
 
   let id = req.query.id
   if (id) {
-  await CRUDService.deleteUserById(id)
-  return res.send('delelete page')
+    await CRUDService.deleteUserById(id)
+    return res.send('delelete page')
   } else {
     return res.send('not found datat')
   }

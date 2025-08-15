@@ -11,6 +11,7 @@ let hashUserPassword = async (password) => {
   }
 };
 
+
 let createNewUser = async (data) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -60,11 +61,11 @@ let getUserInfoById = async (userId) => {
     }
   });
 };
-let updateUserData = async(data) => {
-  return new Promise (async (resolve, reject) =>{
-    try{
+let updateUserData = async (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
       let user = await db.User.findOne({
-        where: {id : data.id}
+        where: { id: data.id }
       })
       if (user) {
 
@@ -88,7 +89,7 @@ let deleteUserById = async (userId) => {
       await db.User.destroy({
         where: { id: userId }
       })
-      resolve(); 
+      resolve();
     } catch (e) {
       reject(e);
     }

@@ -1,6 +1,7 @@
 import express from "express";
 const app = express();
-import { getHomePage, getCRUD, postCRUD , displayGetCRUD, getEditCRUD, putEditCRUD, deleteCRUD} from '../controllers/homeController';
+import { getHomePage, getCRUD, postCRUD, displayGetCRUD, getEditCRUD, putEditCRUD, deleteCRUD } from '../controllers/homeController';
+import { handleLogin } from '../controllers/userController'
 
 let router = express.Router();
 const initWebRoutes = (app) => {
@@ -11,6 +12,7 @@ const initWebRoutes = (app) => {
   router.get('/edit-crud', getEditCRUD)
   router.post('/put-crud', putEditCRUD)
   router.get('/delete-crud', deleteCRUD)
+  router.post('/api/login', handleLogin)
   return app.use('/', router)
 }
 export default initWebRoutes
