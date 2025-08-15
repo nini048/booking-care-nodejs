@@ -1,4 +1,5 @@
-import userService from '../services/userService'
+// import userService from '../services/userService'
+import { handleUserLogin } from '../services/userService';
 
 
 let handleLogin = async (req, res) => {
@@ -12,7 +13,7 @@ let handleLogin = async (req, res) => {
       message: 'Email and password are required'
     })
   }
-  let userData = await userService.handleUserLogin(email, password)
+  let userData = await handleUserLogin(email, password)
   return res.status(200).json({
     errorCode: userData.errorCode,
     message: userData.message,
