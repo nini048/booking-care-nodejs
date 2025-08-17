@@ -123,10 +123,16 @@ export const editUser = async (userId, data) => {
 export const createNewUser = async (data) => {
   return new Promise(async (resolve, reject) => {
     try {
+      if (!data.email || !data.password || !data.firstname || !data.lastname || !data.address) {
+        return resolve({
+          errorCode: '3',
+          message: "Please enter all required information"
+        })
+      }
       let check = await checkUserEmail(data.email)
-      if (check) {
+      if (check.isExist) {
 
-        resolve({
+        return resolve({
           errorCode: 1,
           message: 'Email is used'
         });
@@ -142,14 +148,15 @@ export const createNewUser = async (data) => {
         gender: data.gender === "1" ? true : false,
         roleId: data.role,
       });
-      resolve({
+
+      return resolve({
         errorCode: 0,
         message: 'Create user successful'
       });
     } catch (e) {
       console.log(">>>>error: ", e);
       resolve({
-        errorCode: 3,
+        errorCode: 4,
         message: "create user fail"
       })
     }
