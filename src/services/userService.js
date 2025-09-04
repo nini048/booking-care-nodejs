@@ -147,6 +147,7 @@ export const createNewUser = async (data) => {
         phoneNumber: data.phonenumber,
         gender: data.gender === "1" ? true : false,
         roleId: data.role,
+
       });
 
       return resolve({
@@ -187,4 +188,30 @@ export const deleteUser = async (userId) => {
       });
     }
   })
-}
+};
+export const getAllCodeService = async (typeInput) => {
+  try {
+    if (!typeInput) {
+
+      return {
+        errorCode: 1,
+        message: 'Missing parameter',
+      };
+    }
+    else {
+      let allcode = await db.Allcode.findAll(
+        { where: { type: typeInput } }
+
+      );
+      return {
+        errorCode: 0,
+        message: 'Fetch allcode successful',
+        data: allcode,
+      };
+
+    }
+  } catch (e) {
+    console.error("Allcode fetch error:", e.message);
+    throw e;
+  }
+};

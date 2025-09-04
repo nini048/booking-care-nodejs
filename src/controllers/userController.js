@@ -1,6 +1,9 @@
 // import userService from '../services/userService'
 import { where } from 'sequelize';
-import { handleUserLogin, getAllUsers, createNewUser, deleteUser, editUser } from '../services/userService';
+import {
+  handleUserLogin, getAllUsers, createNewUser,
+  deleteUser, editUser, getAllCodeService
+} from '../services/userService';
 
 
 let handleLogin = async (req, res) => {
@@ -60,20 +63,33 @@ let handleEditUser = async (req, res) => {
   }
 
   let message = await editUser(id, data)
-  return res.status(200).json(message)
+  return res.status(201).json(message)
 }
 let handleDeleteUser = async (req, res) => {
   let id = req.params?.id
   if (!id) {
-    return res.status(200).json({
-      errorCode: 1,
+    return res.status(201).json({
+      errorCode: 2,
       message: 'Missing parameter (id)'
     })
   }
   let message = await deleteUser(id)
-  return res.status(200).json(message)
+  return res.status(201).json(message)
+}
+let getAllCode = async (req, res) => {
+  try {
+    let data = await getAllCodeService(req.query.type);
+    return res.status(200).json(data);
+  }
+  catch (e) {
+    console.log('Get allcode error ', e.message, e.stack);
+    return res.status(200).json({
+      errorCode: -1,
+      message: 'Error from server'
+    })
+  }
 }
 module.exports = {
   handleLogin, handleGetAllUsers, handleCreateNewUser,
-  handleEditUser, handleDeleteUser
+  handleEditUser, handleDeleteUser, getAllCode
 }

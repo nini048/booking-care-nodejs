@@ -1,7 +1,7 @@
 import express from "express";
 const app = express();
 import { getHomePage, getCRUD, postCRUD, displayGetCRUD, getEditCRUD, putEditCRUD, deleteCRUD } from '../controllers/homeController';
-import { handleLogin, handleGetAllUsers, handleCreateNewUser, handleEditUser, handleDeleteUser } from '../controllers/userController'
+import { handleLogin, handleGetAllUsers, getAllCode, handleCreateNewUser, handleEditUser, handleDeleteUser } from '../controllers/userController'
 
 let router = express.Router();
 const initWebRoutes = (app) => {
@@ -17,7 +17,7 @@ const initWebRoutes = (app) => {
   router.post('/api/create-new-user', handleCreateNewUser)
   router.put('/api/edit-user/:id', handleEditUser)
   router.delete('/api/delete-user/:id', handleDeleteUser)
-
+  router.get('/allcode', getAllCode)
   return app.use('/', router)
 
 }
