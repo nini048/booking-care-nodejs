@@ -19,12 +19,13 @@ let createNewUser = async (data) => {
       await db.User.create({
         email: data.email,
         password: hashPasswordFromBcrypt,
-        firstName: data.firstname,
-        lastName: data.lastname,
+        firstName: data.firstName,
+        lastName: data.lastName,
         address: data.address,
-        phoneNumber: data.phonenumber,
-        gender: data.gender === "1" ? true : false,
+        phoneNumber: data.phoneNumber,
+        gender: data.gender,
         roleId: data.role,
+        positionId: data.position
       });
       resolve("oke create new user success");
     } catch (e) {

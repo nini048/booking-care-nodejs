@@ -40,7 +40,7 @@ const compareUserPassword = async (user, passwordInput) => {
 const checkUserEmail = async (userEmail) => {
   const user = await db.User.findOne({
     where: { email: userEmail },
-    attributes: ['email', 'roleId']
+    attributes: ['email', 'roleId', 'firstName', 'lastName']
   });
 
   return {
@@ -87,12 +87,14 @@ export const editUser = async (userId, data) => {
 
       let [update] = await db.User.update({
 
-        firstName: data.firstname,
-        lastName: data.lastname,
+        firstName: data.firstName,
+        lastName: data.lastName,
         address: data.address,
-        phoneNumber: data.phonenumber,
-        gender: data.gender === "1" ? true : false,
+        phoneNumber: data.phoneNumber,
+        gender: data.gender,
         roleId: data.role,
+        positionId: data.position
+
 
       },
         {
@@ -123,7 +125,7 @@ export const editUser = async (userId, data) => {
 export const createNewUser = async (data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      if (!data.email || !data.password || !data.firstname || !data.lastname || !data.address) {
+      if (!data.email || !data.password || !data.firstName || !data.lastName || !data.address) {
         return resolve({
           errorCode: '3',
           message: "Please enter all required information"
@@ -141,12 +143,15 @@ export const createNewUser = async (data) => {
       await db.User.create({
         email: data.email,
         password: hashPasswordFromBcrypt,
-        firstName: data.firstname,
-        lastName: data.lastname,
+        firstName: data.firstName,
+        lastName: data.lastName,
         address: data.address,
-        phoneNumber: data.phonenumber,
-        gender: data.gender === "1" ? true : false,
+        phoneNumber: data.phoneNumber,
+        gender: data.gender,
         roleId: data.role,
+        positionId: data.position,
+        image: data.image
+
 
       });
 

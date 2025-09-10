@@ -49,9 +49,17 @@ let handleGetAllUsers = async (req, res) => {
 
 }
 let handleCreateNewUser = async (req, res) => {
-  let message = await createNewUser(req.body)
-  return res.status(200).json(message)
-}
+  try {
+    let data = req.body;
+    if (req.file) {
+      data.image = req.file.filename; // hoặc req.file.path nếu muốn lưu path
+    }
+    let message = await createNewUser(data);
+    return res.status(200).json(message);
+  } catch (e) {
+    return res.status(500).json({ errorCode: 99, message: "Server error" });
+  }
+};
 let handleEditUser = async (req, res) => {
   let id = req.params?.id
   let data = req?.body
@@ -78,8 +86,11 @@ let handleDeleteUser = async (req, res) => {
 }
 let getAllCode = async (req, res) => {
   try {
-    let data = await getAllCodeService(req.query.type);
-    return res.status(200).json(data);
+    setTimeout(async () => {
+
+      let data = await getAllCodeService(req.query.type);
+      return res.status(200).json(data);
+    }, 2000)
   }
   catch (e) {
     console.log('Get allcode error ', e.message, e.stack);
