@@ -2,9 +2,9 @@ import express from "express";
 const app = express();
 import { getHomePage, getCRUD, postCRUD, displayGetCRUD, getEditCRUD, putEditCRUD, deleteCRUD } from '../controllers/homeController';
 import { handleLogin, handleGetAllUsers, getAllCode, handleCreateNewUser, handleEditUser, handleDeleteUser } from '../controllers/userController'
-import multer from "multer";
+import upload from "../uploads/upload";
 
-const upload = multer({ dest: "uploads/" });
+
 
 let router = express.Router();
 const initWebRoutes = (app) => {

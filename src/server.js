@@ -4,6 +4,8 @@ import configViewEngine from './config/viewEngine'
 import initWebRoutes from './route/web'
 import connectDB from './config/connectDB'
 import cors from 'cors';
+const path = require("path");
+const fs = require("fs");
 require('dotenv').config()
 let app = express()
 app.use(cors(
@@ -14,6 +16,11 @@ app.use(cors(
 ))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+const uploadDir = path.join(__dirname, "../uploads");
+if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
+
+app.use("/uploads", express.static(uploadDir));
+
 
 configViewEngine(app)
 initWebRoutes(app)

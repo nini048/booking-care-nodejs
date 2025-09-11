@@ -14,7 +14,7 @@ let handleLogin = async (req, res) => {
   if (!email || !password) {
     return res.status(502).json({
       errorCode: 3,
-      message: 'Email and password are required'
+      message: 'Email and password are required / Bắt buộc phải nhập email và mật khẩu'
     })
   }
   let userData = await handleUserLogin(email, password)
@@ -35,7 +35,7 @@ let handleGetAllUsers = async (req, res) => {
 
     return res.status(200).json({
       errorCode: 1,
-      message: 'Missing required paremeter (id)',
+      message: 'Missing required parameter (id) / Thiếu tham số bắt buộc (id)',
       users: []
     })
   }
@@ -43,7 +43,7 @@ let handleGetAllUsers = async (req, res) => {
   let users = await getAllUsers(id)
   return res.status(200).json({
     errorCode: 0,
-    message: 'fetch users successfully',
+    message: 'Fetch users successfully / Lấy danh sách người dùng thành công',
     users
   })
 
@@ -57,7 +57,10 @@ let handleCreateNewUser = async (req, res) => {
     let message = await createNewUser(data);
     return res.status(200).json(message);
   } catch (e) {
-    return res.status(500).json({ errorCode: 99, message: "Server error" });
+    return res.status(500).json({
+      errorCode: 99,
+      message: 'Server error / Lỗi từ máy chủ'
+    });
   }
 };
 let handleEditUser = async (req, res) => {
@@ -66,7 +69,7 @@ let handleEditUser = async (req, res) => {
   if (!id) {
     return res.status(200).json({
       errorCode: 1,
-      message: 'Missing parameter (id)'
+      message: 'Missing parameter (id) / Thiếu tham số (id)'
     })
   }
 
@@ -78,7 +81,7 @@ let handleDeleteUser = async (req, res) => {
   if (!id) {
     return res.status(201).json({
       errorCode: 2,
-      message: 'Missing parameter (id)'
+      message: 'Missing parameter (id) / Thiếu tham số (id)'
     })
   }
   let message = await deleteUser(id)
@@ -93,10 +96,9 @@ let getAllCode = async (req, res) => {
     }, 2000)
   }
   catch (e) {
-    console.log('Get allcode error ', e.message, e.stack);
     return res.status(200).json({
       errorCode: -1,
-      message: 'Error from server'
+      message: 'Error from server / Lỗi từ máy chủ'
     })
   }
 }

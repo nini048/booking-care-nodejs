@@ -8,7 +8,7 @@ export const handleUserLogin = async (email, password) => {
   if (!isExist) {
     return {
       errorCode: 2,
-      message: 'The email you entered does not exist'
+      message: 'The email you entered does not exist / Email bạn nhập không tồn tại'
     };
   }
 
@@ -17,13 +17,13 @@ export const handleUserLogin = async (email, password) => {
   if (!isMatchPassword) {
     return {
       errorCode: 3,
-      message: 'The password you entered is incorrect'
+      message: 'The password you entered is incorrect / Mật khẩu bạn nhập không đúng'
     };
   }
 
   return {
     errorCode: 0,
-    message: 'Login successful',
+    message: 'Login successful / Đăng nhập thành công',
     user
   };
 };
@@ -93,7 +93,8 @@ export const editUser = async (userId, data) => {
         phoneNumber: data.phoneNumber,
         gender: data.gender,
         roleId: data.role,
-        positionId: data.position
+        positionId: data.position,
+        image: data.image
 
 
       },
@@ -105,19 +106,19 @@ export const editUser = async (userId, data) => {
       if (update === 0) {
         resolve({
           errorCode: 2,
-          message: 'update fail'
+          message: 'Update failed / Cập nhật thất bại'
         })
       }
       resolve({
         errorCode: 0,
-        message: 'update successful'
+        message: 'Update successful / Cập nhật thành công',
       })
     }
     catch (e) {
 
       resolve({
         errorCode: 3,
-        message: 'update fail'
+        message: 'Update failed / Cập nhật thất bại'
       })
     }
   })
@@ -125,10 +126,10 @@ export const editUser = async (userId, data) => {
 export const createNewUser = async (data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      if (!data.email || !data.password || !data.firstName || !data.lastName || !data.address) {
+      if (!data.email || !data.password || !data.firstName || !data.lastName || !data.image || !data.address) {
         return resolve({
           errorCode: '3',
-          message: "Please enter all required information"
+          message: "Please enter all required information / Vui lòng nhập đầy đủ thông tin bắt buộc"
         })
       }
       let check = await checkUserEmail(data.email)
@@ -136,7 +137,7 @@ export const createNewUser = async (data) => {
 
         return resolve({
           errorCode: 1,
-          message: 'Email is used'
+          message: 'Email is already in use / Email đã được sử dụng'
         });
       }
       let hashPasswordFromBcrypt = await hashUserPassword(data.password);
@@ -157,13 +158,20 @@ export const createNewUser = async (data) => {
 
       return resolve({
         errorCode: 0,
-        message: 'Create user successful'
+        message: 'Create user successful / Tạo người dùng thành công',
+        users: {
+          id: data.id,
+          email: data.email,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          address: data.address
+        }
       });
     } catch (e) {
       console.log(">>>>error: ", e);
       resolve({
         errorCode: 4,
-        message: "create user fail"
+        message: 'Create user failed / Tạo người dùng thất bại',
       })
     }
   });
@@ -178,18 +186,17 @@ export const deleteUser = async (userId) => {
       if (!deleted) {
         resolve({
           errorCode: 2,
-          message: 'Delete not exist'
+          message: 'User does not exist / Người dùng không tồn tại'
         })
       }
       resolve({
         errorCode: 0,
-        message: 'Delete user successful'
+        message: 'Delete user successful / Xóa người dùng thành công'
       })
     } catch (e) {
       resolve({
         errorCode: 3,
-        message: 'Delete user failed',
-        error: e.message
+        message: 'Delete user failed / Xóa người dùng thất bại'
       });
     }
   })
@@ -200,7 +207,7 @@ export const getAllCodeService = async (typeInput) => {
 
       return {
         errorCode: 1,
-        message: 'Missing parameter',
+        message: 'Missing parameter / Thiếu tham số',
       };
     }
     else {
@@ -210,7 +217,7 @@ export const getAllCodeService = async (typeInput) => {
       );
       return {
         errorCode: 0,
-        message: 'Fetch allcode successful',
+        message: 'Fetch allcode successful / Lấy danh sách allcode thành công',
         data: allcode,
       };
 
