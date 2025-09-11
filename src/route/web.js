@@ -2,6 +2,7 @@ import express from "express";
 const app = express();
 import { getHomePage, getCRUD, postCRUD, displayGetCRUD, getEditCRUD, putEditCRUD, deleteCRUD } from '../controllers/homeController';
 import { handleLogin, handleGetAllUsers, getAllCode, handleCreateNewUser, handleEditUser, handleDeleteUser } from '../controllers/userController'
+import { getTopDoctorHome } from '../controllers/doctorController'
 import upload from "../uploads/upload";
 
 
@@ -21,6 +22,7 @@ const initWebRoutes = (app) => {
   router.put('/api/edit-user/:id', handleEditUser)
   router.delete('/api/delete-user/:id', handleDeleteUser)
   router.get('/allcode', getAllCode)
+  router.get('/api/top-doctor-home', getTopDoctorHome)
   return app.use('/', router)
 
 }
