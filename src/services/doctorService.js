@@ -31,3 +31,64 @@ export const getTopDoctorHomeService = async (limitInput) => {
     };
   }
 }
+export const getAllDoctorsService = async () => {
+  try {
+    let doctors = await db.User.findAll({
+      where: { roleId: 'R2' },
+      attributes: {
+        exclude: ['password', 'image']
+      },
+
+    })
+    return {
+      errorCode: 0,
+      message: 'Fectch doctor success',
+      data: doctors
+    }
+
+  }
+  catch (e) {
+    console.error("ERROR getTopDoctorHomeService:", e.message || e)
+    return {
+      errorCode: -1,
+      message: 'Database error / Lỗi từ DB'
+    };
+  }
+
+}
+export const postInfoDoctorsService = async (inputData) => {
+  try {
+
+    if (
+      !inputData.id ||
+      !inputData.contentHTML ||
+      !inputData.contentMarkdown
+    ) {
+      return {
+        errCode: 1,
+        errMessage: 'Missing parameter'
+      };
+    }
+    else {
+      await db.Markdown.create({
+        contentHTML: inputData.contentHTML,
+        contentMarkdown: inputData.contentMarkdown,
+        description: inputData.description,
+        doctorId: inputData.doctorId
+      });
+      return {
+        errorCode: 0,
+        message: 'Save info doctor success'
+      }
+
+    }
+  }
+  catch (e) {
+
+    console.error("ERROR postInfoDoctorsService:", e.message || e)
+    return {
+      errorCode: -1,
+      message: 'Database error / Lỗi từ DB'
+    };
+  }
+}

@@ -1,8 +1,18 @@
 import express from "express";
 const app = express();
-import { getHomePage, getCRUD, postCRUD, displayGetCRUD, getEditCRUD, putEditCRUD, deleteCRUD } from '../controllers/homeController';
-import { handleLogin, handleGetAllUsers, getAllCode, handleCreateNewUser, handleEditUser, handleDeleteUser } from '../controllers/userController'
-import { getTopDoctorHome } from '../controllers/doctorController'
+import {
+  getHomePage, getCRUD, postCRUD,
+  displayGetCRUD, getEditCRUD, putEditCRUD, deleteCRUD
+} from '../controllers/homeController';
+import {
+  handleLogin, handleGetAllUsers,
+  getAllCode, handleCreateNewUser,
+  handleEditUser, handleDeleteUser
+} from '../controllers/userController'
+import {
+  getTopDoctorHome, getAllDoctors,
+  postInfoDoctor
+} from '../controllers/doctorController'
 import upload from "../uploads/upload";
 
 
@@ -23,6 +33,8 @@ const initWebRoutes = (app) => {
   router.delete('/api/delete-user/:id', handleDeleteUser)
   router.get('/allcode', getAllCode)
   router.get('/api/top-doctor-home', getTopDoctorHome)
+  router.get('/api/get-all-doctors', getAllDoctors)
+  router.post('/api/post-info-doctor', postInfoDoctor)
   return app.use('/', router)
 
 }
