@@ -1,7 +1,9 @@
 import {
   getAllDoctorsService, getTopDoctorHomeService,
   postInfoDoctorService,
-  getInfoDoctorService
+  getInfoDoctorService,
+  bulkCreateScheduleService,
+  getScheduleByDateService
 } from '../services/doctorService'
 export const getTopDoctorHome = async (req, res) => {
   let limit = req.query.limit;
@@ -64,4 +66,30 @@ export const getInfoDoctor = async (req, res) => {
       message: 'Server error / Lỗi từ máy chủ'
     })
   }
-} 
+}
+export const bulkCreateSchedule = async (req, res) => {
+  try {
+    let info = await bulkCreateScheduleService(req.body);
+    return res.status(200).json(info);
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({
+      errorCode: -1,
+      message: 'Server error / Lỗi từ máy chủ',
+    });
+  }
+};
+export const getScheduleByDate = async (req, res) => {
+  try {
+    let response = await getScheduleByDateService(req.query.doctorId, req.query.date)
+    return res.status(200).json(response)
+  }
+  catch (e) {
+
+    console.error(e);
+    return res.status(500).json({
+      errorCode: -1,
+      message: 'Server error / Lỗi từ máy chủ',
+    });
+  }
+}

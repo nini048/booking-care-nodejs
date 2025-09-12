@@ -2,7 +2,10 @@ import express from "express";
 const app = express();
 import { getHomePage, getCRUD, postCRUD, displayGetCRUD, getEditCRUD, putEditCRUD, deleteCRUD } from '../controllers/homeController';
 import { handleLogin, handleGetAllUsers, getAllCode, handleCreateNewUser, handleEditUser, handleDeleteUser } from '../controllers/userController'
-import { getTopDoctorHome, getAllDoctors, postInfoDoctor, getInfoDoctor } from '../controllers/doctorController'
+import {
+  getTopDoctorHome, getAllDoctors, postInfoDoctor, getInfoDoctor,
+  bulkCreateSchedule, getScheduleByDate
+} from '../controllers/doctorController'
 import upload from "../uploads/upload";
 
 
@@ -26,6 +29,9 @@ const initWebRoutes = (app) => {
   router.get('/api/get-all-doctors', getAllDoctors)
   router.post('/api/post-info-doctor', postInfoDoctor)
   router.get('/api/get-info-doctor', getInfoDoctor)
+  router.post('/api/post-schedule-doctor', bulkCreateSchedule);
+  router.get('/api/get-schedule-doctor-by-date', getScheduleByDate);
+
   return app.use('/', router)
 
 }
