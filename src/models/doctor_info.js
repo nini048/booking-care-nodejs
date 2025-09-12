@@ -10,13 +10,17 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      DoctorInfo.belongsTo(models.User, {
+        foreignKey: "doctorId",
+        as: "doctorData",
+      });
     }
   }
   DoctorInfo.init(
     {
       doctorId: DataTypes.INTEGER,
-      priceld: DataTypes.STRING,
-      provinceld: DataTypes.STRING,
+      priceId: DataTypes.STRING,
+      provinceId: DataTypes.STRING,
       paymentId: DataTypes.STRING,
       addressClinic: DataTypes.STRING,
       nameClinic: DataTypes.STRING,
@@ -28,6 +32,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Doctor_Info",
+      tableName: "Doctor_Info",
     }
   );
   return DoctorInfo;

@@ -13,11 +13,11 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false
       },
-      priceld: {
+      priceId: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      provinceld: {
+      provinceId: {
         type: Sequelize.STRING,
         allowNull: false
       },

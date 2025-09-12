@@ -59,6 +59,7 @@ export const getAllDoctorsService = async () => {
 }
 export const postInfoDoctorService = async (inputData) => {
   try {
+    // Kiểm tra các tham số bắt buộc
     if (
       !inputData.doctorId ||
       !inputData.contentHTML ||
@@ -71,37 +72,62 @@ export const postInfoDoctorService = async (inputData) => {
       };
     }
 
-    // Tìm xem đã có Markdown cho doctor chưa
+    // --- Xử lý Markdown ---
     let doctorMarkdown = await db.Markdown.findOne({
       where: { doctorId: inputData.doctorId },
       raw: false
     });
 
     if (doctorMarkdown) {
-      // Nếu đã có thì update
+      // Update nếu đã có
       doctorMarkdown.contentHTML = inputData.contentHTML;
       doctorMarkdown.contentMarkdown = inputData.contentMarkdown;
       doctorMarkdown.description = inputData.description;
       await doctorMarkdown.save();
-
-      return {
-        errorCode: 0,
-        message: 'Update doctor info successful / Cập nhật thông tin bác sĩ thành công'
-      };
     } else {
-      // Nếu chưa có thì tạo mới
+      // Tạo mới
       await db.Markdown.create({
         contentHTML: inputData.contentHTML,
         contentMarkdown: inputData.contentMarkdown,
         description: inputData.description,
         doctorId: inputData.doctorId
       });
-
-      return {
-        errorCode: 0,
-        message: 'Create doctor info successful / Tạo mới thông tin bác sĩ thành công'
-      };
     }
+
+    // --- Xử lý Doctor_Info ---
+    let doctorInfo = await db.Doctor_Info.findOne({
+      where: { doctorId: inputData.doctorId },
+      raw: false
+    });
+
+    if (doctorInfo) {
+      // Update nếu đã có
+      doctorInfo.priceId = inputData.priceId;
+      doctorInfo.provinceId = inputData.provinceId;
+      doctorInfo.paymentId = inputData.paymentId;
+      doctorInfo.addressClinic = inputData.addressClinic;
+      doctorInfo.nameClinic = inputData.nameClinic;
+      doctorInfo.note = inputData.note;
+      doctorInfo.count = inputData.count || doctorInfo.count; // giữ count cũ nếu chưa có
+      await doctorInfo.save();
+    } else {
+      // Tạo mới
+      await db.Doctor_Info.create({
+        doctorId: inputData.doctorId,
+        priceId: inputData.priceId,
+        provinceId: inputData.provinceId,
+        paymentId: inputData.paymentId,
+        addressClinic: inputData.addressClinic,
+        nameClinic: inputData.nameClinic,
+        note: inputData.note,
+        count: inputData.count || 0
+      });
+    }
+
+    return {
+      errorCode: 0,
+      message: 'Doctor info saved successfully / Lưu thông tin bác sĩ thành công'
+    };
   } catch (e) {
     console.error("ERROR postInfoDoctorService:", e.message || e);
     return {
@@ -135,6 +161,21 @@ export const getInfoDoctorService = async (inputId) => {
           as: 'positionData',
           attributes: ['valueEn', 'valueVi']
         },
+        {
+          model: db.Doctor_Info,        // Thêm bảng doctor_info
+          as: 'doctorInfo',
+          attributes: [
+            'priceId',
+            'paymentId',
+            'provinceId',
+            'addressClinic',
+            'nameClinic',
+            'note',
+            'count',
+            'createdAt',
+            'updatedAt'
+          ]
+        }
       ],
       raw: true,
       nest: true
