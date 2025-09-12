@@ -20,7 +20,7 @@ export const getTopDoctorHomeService = async (limitInput) => {
 
     return {
       errorCode: 0,
-      message: 'Fetch users successful',
+      message: 'Fetch users successful / Lấy danh sách bác sĩ thành công',
       data: users
     };
   } catch (e) {
@@ -42,7 +42,7 @@ export const getAllDoctorsService = async () => {
     })
     return {
       errorCode: 0,
-      message: 'Fectch doctor success',
+      message: 'Fetch doctor success / Lấy thông tin bác sĩ thành công', message: 'Fectch doctor success',
       data: doctors
     }
 
@@ -65,8 +65,8 @@ export const postInfoDoctorsService = async (inputData) => {
       !inputData.contentMarkdown
     ) {
       return {
-        errCode: 1,
-        errMessage: 'Missing parameter'
+        errorCode: 1,
+        message: 'Missing parameter / Thiếu tham số'
       };
     }
     else {
@@ -78,7 +78,7 @@ export const postInfoDoctorsService = async (inputData) => {
       });
       return {
         errorCode: 0,
-        message: 'Save info doctor success'
+        message: 'Save doctor info successful / Lưu thông tin bác sĩ thành công'
       }
 
     }
@@ -92,3 +92,42 @@ export const postInfoDoctorsService = async (inputData) => {
     };
   }
 }
+export const getInfoDoctorService = async (id) => {
+  try {
+    if (!id) {
+      return {
+        errorCode: 1,
+        message: 'Missing parameter / Thiếu tham số'
+      };
+    }
+
+    // Lấy thông tin bác sĩ và Markdown liên quan
+    let data = await db.User.findOne({
+      where: { id },
+      attributes: {
+        exclude: ['password', 'image']
+      },
+      include: [
+        {
+          model: db.Markdown,
+          as: 'doctorData', // phải trùng với association
+          attributes: ['contentHTML', 'contentMarkdown', 'description'] // lấy description
+        }
+      ],
+      raw: true,
+      nest: true
+    });
+
+    return {
+      errorCode: 0,
+      message: 'Fetch info doctor success / Lấy thông tin bác sĩ thành công',
+      data: data
+    };
+  } catch (e) {
+    console.error("ERROR getInfoDoctorService:", e.message || e);
+    return {
+      errorCode: -1,
+      message: 'Database error / Lỗi từ DB'
+    };
+  }
+};

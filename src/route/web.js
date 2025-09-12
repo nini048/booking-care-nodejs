@@ -11,7 +11,7 @@ import {
 } from '../controllers/userController'
 import {
   getTopDoctorHome, getAllDoctors,
-  postInfoDoctor
+  postInfoDoctor, getInfoDoctor
 } from '../controllers/doctorController'
 import upload from "../uploads/upload";
 
@@ -35,6 +35,8 @@ const initWebRoutes = (app) => {
   router.get('/api/top-doctor-home', getTopDoctorHome)
   router.get('/api/get-all-doctors', getAllDoctors)
   router.post('/api/post-info-doctor', postInfoDoctor)
+  router.get('/api/get-info-doctor', getInfoDoctor)
+
   return app.use('/', router)
 
 }
