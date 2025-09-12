@@ -49,7 +49,7 @@ export const getInfoDoctor = async (req, res) => {
   try {
 
     if (!req.query.id) {
-      return res.status(400).json({
+      return res.status(200).json({
         errCode: 3,
         errMessage: 'Missing req query.id / Thiếu tham số id'
       });

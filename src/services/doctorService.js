@@ -56,63 +56,84 @@ export const getAllDoctorsService = async () => {
   }
 
 }
-export const postInfoDoctorsService = async (inputData) => {
+export const postInfoDoctorService = async (inputData) => {
   try {
-
     if (
-      !inputData.id ||
+      !inputData.doctorId ||
       !inputData.contentHTML ||
-      !inputData.contentMarkdown
+      !inputData.contentMarkdown ||
+      !inputData.description
     ) {
       return {
         errorCode: 1,
         message: 'Missing parameter / Thiếu tham số'
       };
     }
-    else {
+
+    // Tìm xem đã có Markdown cho doctor chưa
+    let doctorMarkdown = await db.Markdown.findOne({
+      where: { doctorId: inputData.doctorId },
+      raw: false
+    });
+
+    if (doctorMarkdown) {
+      // Nếu đã có thì update
+      doctorMarkdown.contentHTML = inputData.contentHTML;
+      doctorMarkdown.contentMarkdown = inputData.contentMarkdown;
+      doctorMarkdown.description = inputData.description;
+      await doctorMarkdown.save();
+
+      return {
+        errorCode: 0,
+        message: 'Update doctor info successful / Cập nhật thông tin bác sĩ thành công'
+      };
+    } else {
+      // Nếu chưa có thì tạo mới
       await db.Markdown.create({
         contentHTML: inputData.contentHTML,
         contentMarkdown: inputData.contentMarkdown,
         description: inputData.description,
         doctorId: inputData.doctorId
       });
+
       return {
         errorCode: 0,
-        message: 'Save doctor info successful / Lưu thông tin bác sĩ thành công'
-      }
-
+        message: 'Create doctor info successful / Tạo mới thông tin bác sĩ thành công'
+      };
     }
-  }
-  catch (e) {
-
-    console.error("ERROR postInfoDoctorsService:", e.message || e)
+  } catch (e) {
+    console.error("ERROR postInfoDoctorService:", e.message || e);
     return {
       errorCode: -1,
       message: 'Database error / Lỗi từ DB'
     };
   }
-}
-export const getInfoDoctorService = async (id) => {
+};
+export const getInfoDoctorService = async (inputId) => {
   try {
-    if (!id) {
+    if (!inputId) {
       return {
         errorCode: 1,
         message: 'Missing parameter / Thiếu tham số'
       };
     }
 
-    // Lấy thông tin bác sĩ và Markdown liên quan
     let data = await db.User.findOne({
-      where: { id },
+      where: { id: inputId },
       attributes: {
-        exclude: ['password', 'image']
+        exclude: ['password']
       },
       include: [
         {
           model: db.Markdown,
-          as: 'doctorData', // phải trùng với association
-          attributes: ['contentHTML', 'contentMarkdown', 'description'] // lấy description
-        }
+          as: 'markdownData',
+          attributes: ['contentHTML', 'contentMarkdown', 'description']
+        },
+        {
+          model: db.Allcode,
+          as: 'positionData',
+          attributes: ['valueEn', 'valueVi']
+        },
       ],
       raw: true,
       nest: true
