@@ -95,7 +95,7 @@ export const postInfoDoctorService = async (inputData) => {
     }
 
     // --- Xử lý Doctor_Info ---
-    let doctorInfo = await db.Doctor_Info.findOne({
+    let doctorInfo = await db.DoctorInfo.findOne({
       where: { doctorId: inputData.doctorId },
       raw: false
     });
@@ -112,7 +112,7 @@ export const postInfoDoctorService = async (inputData) => {
       await doctorInfo.save();
     } else {
       // Tạo mới
-      await db.Doctor_Info.create({
+      await db.DoctorInfo.create({
         doctorId: inputData.doctorId,
         priceId: inputData.priceId,
         provinceId: inputData.provinceId,
@@ -162,7 +162,7 @@ export const getInfoDoctorService = async (inputId) => {
           attributes: ['valueEn', 'valueVi']
         },
         {
-          model: db.Doctor_Info,        // Thêm bảng doctor_info
+          model: db.DoctorInfo,        // Thêm bảng doctor_info
           as: 'doctorInfo',
           attributes: [
             'priceId',
@@ -174,7 +174,25 @@ export const getInfoDoctorService = async (inputId) => {
             'count',
             'createdAt',
             'updatedAt'
-          ]
+          ],
+          include: [
+            {
+              model: db.Allcode,
+              as: "priceData",
+              attributes: ["valueEn", "valueVi"],
+            },
+            {
+              model: db.Allcode,
+              as: "paymentData",
+              attributes: ["valueEn", "valueVi"],
+            },
+            {
+              model: db.Allcode,
+              as: "provinceData",
+              attributes: ["valueEn", "valueVi"],
+            },
+
+          ],
         }
       ],
       raw: true,
