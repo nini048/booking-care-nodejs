@@ -26,10 +26,10 @@ Ensure the following are installed before setting up the project:
 To set up the project locally, follow these steps:
 
 1. **Clone the repository**:
-   ```bash
-  git clone https://github.com/nini048/booking-care-nodejs.git
-   cd booking-care-nodejs
-   ```
+```bash
+git clone https://github.com/nini048/booking-care-nodejs.git
+cd booking-care-nodejs
+```
 2. **Install dependencies:**
 ```bash
 npm install
