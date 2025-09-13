@@ -33,12 +33,13 @@ export const sendEmail = async ({ to, subject, htmlContent }) => {
 
 /**
  */
-export const generateBookingEmail = ({ patientName, doctorName, date, time }) => {
+export const generateBookingEmail = ({ patientName, doctorName, date, time, confirmUrl }) => {
   return `
-    <h3>Booking Confirmation / Xác nhận đặt lịch</h3>
-    <p>Dear ${patientName},</p>
-    <p>Your appointment with <b>${doctorName}</b> has been confirmed.</p>
-    <p>Date: ${date} / Thời gian: ${time}</p>
-    <p>Cảm ơn bạn đã chọn phòng khám của chúng tôi!</p>
+    <h3>Xin chào ${patientName} / Hello ${patientName}</h3>
+    <p>Bạn đã đặt lịch khám với bác sĩ <strong>${doctorName}</strong>.</p>
+    <p>Thời gian: <strong>${date} ${time}</strong></p>
+    <p>Vui lòng nhấn vào link dưới đây để xác nhận / Please click the link to confirm:</p>
+    <a href="${confirmUrl}">${confirmUrl}</a>
+    <p>Nếu bạn không đặt lịch, hãy bỏ qua email này / Ignore this email if you did not make this booking.</p>
   `;
 };
