@@ -2,7 +2,7 @@ import { postBookAppointmentService } from "../services/patientService"
 
 export const postBookAppointment = async (req, res) => {
   try {
-    let response = postBookAppointmentService(req.body)
+    let response = await postBookAppointmentService(req.body)
     return res.status(200).json(response)
 
 

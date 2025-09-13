@@ -214,9 +214,9 @@ export const getInfoDoctorService = async (inputId) => {
 };
 export const bulkCreateScheduleService = async (data) => {
   try {
-    const { doctorId, date, time, maxNumber } = data;
+    const { doctorId, date, time } = data;
 
-    if (!doctorId || !date || !time || !Array.isArray(time) || !maxNumber) {
+    if (!doctorId || !date || !time) {
       return {
         errorCode: 1,
         message: "Invalid input / Dữ liệu không hợp lệ",
@@ -242,7 +242,6 @@ export const bulkCreateScheduleService = async (data) => {
         date,
         timeType,
         currentNumber: existing.length + index + 1, // số thứ tự trong ngày
-        maxNumber,
       }));
 
     if (newSchedules.length === 0) {

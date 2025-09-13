@@ -1,7 +1,7 @@
 import db from "../models";
-export const postBookAppoinmentService = async (data) => {
+export const postBookAppointmentService = async (data) => {
   try {
-    if (!data.email) {
+    if (!data.email || !data.doctorId || !data.date || !data.timeType) {
 
       return {
         errorCode: 1,
@@ -16,10 +16,23 @@ export const postBookAppoinmentService = async (data) => {
           roleId: 'R3'
         }
       });
+      if (user && user[0]) {
+        await db.Booking.findOrCreate({
+          where: { patientId: user[0].id },
+          defaults: {
+
+            statusId: 'S1',
+            doctorId: data.doctorId,
+            patientId: user[0].id,
+            date: data.date,
+            timeType: data.timeType
+          }
+        })
+      }
       return {
         errorCode: 0,
-        message: "Find or create user success / Tạo hoặc tìm người dùng thành công",
-        data: user
+        message: "booking success",
+        user: user,
       }
 
     }
