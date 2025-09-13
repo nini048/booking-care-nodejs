@@ -1,4 +1,6 @@
 import db from "../models";
+
+import crypto from "crypto";
 export const postBookAppointmentService = async (data) => {
   try {
     if (!data.email || !data.doctorId || !data.date || !data.timeType) {
