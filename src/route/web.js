@@ -7,6 +7,7 @@ import {
   bulkCreateSchedule, getScheduleByDate
 } from '../controllers/doctorController'
 import upload from "../uploads/upload";
+import { postBookAppointment } from "../controllers/patientController";
 
 
 
@@ -31,7 +32,7 @@ const initWebRoutes = (app) => {
   router.get('/api/get-info-doctor', getInfoDoctor)
   router.post('/api/post-schedule-doctor', bulkCreateSchedule);
   router.get('/api/get-schedule-doctor-by-date', getScheduleByDate);
-
+  router.post('api/book-appointment', postBookAppointment)
   return app.use('/', router)
 
 }
