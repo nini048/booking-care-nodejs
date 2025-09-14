@@ -4,6 +4,8 @@ module.exports = (sequelize, DataTypes) => {
   class Specialty extends Model {
     static associate(models) {
       // define association here
+      Specialty.hasMany(models.DoctorInfo, { foreignKey: 'specialtyId', as: 'specialtyData' });
+
     }
   }
   Specialty.init(

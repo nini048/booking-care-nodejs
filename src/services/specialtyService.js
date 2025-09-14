@@ -49,3 +49,47 @@ export const getAllSpecialtyService = async () => {
     };
   }
 }
+export const getDoctorsBySpecialtyService = async (specialtyId) => {
+  try {
+    let doctors = await db.Specialty.findOne({
+      where: { id: specialtyId },
+      include: [
+        {
+          model: db.DoctorInfo,
+          as: "specialtyData",
+          include: [
+            {
+              model: db.User,
+              as: "doctorData",
+              attributes: ["id", "firstName", "lastName", 'image'],
+              include: [
+                {
+                  model: db.Allcode,
+                  as: "positionData",
+                  attributes: ["valueEn", "valueVi"]
+                }
+
+              ]
+            },
+
+          ],
+        }
+      ],
+      raw: false,
+      nest: true
+    })
+    return {
+      errorCode: 0,
+      message: "Get doctors of specialty successfully / Lấy thông tin bác sĩ của chuyên khoa thành công",
+      data: doctors
+    };
+  }
+  catch (e) {
+
+    console.error("ERROR getDoctorsBySpecialtyService:", e.message || e);
+    return {
+      errorCode: -1,
+      message: 'Database error / Lỗi từ DB'
+    };
+  }
+}

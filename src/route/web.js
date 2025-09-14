@@ -8,7 +8,7 @@ import {
 } from '../controllers/doctorController'
 import upload from "../uploads/upload";
 import { confirmBooking, postBookAppointment } from "../controllers/patientController";
-import { getAllSpecialty, postNewSpecialty } from "../controllers/specialtyController";
+import { getAllSpecialty, getDoctorsBySpecialty, postNewSpecialty } from "../controllers/specialtyController";
 
 
 
@@ -37,6 +37,7 @@ const initWebRoutes = (app) => {
   router.get('/confirm-booking', confirmBooking);
   router.post('/api/post-new-specialty', upload.single("image"), postNewSpecialty)
   router.get('/api/get-all-specialty', getAllSpecialty)
+  router.get('/api/get-doctors-by-specialty', getDoctorsBySpecialty)
   return app.use('/', router)
 
 }

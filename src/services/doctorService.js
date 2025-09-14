@@ -64,7 +64,9 @@ export const postInfoDoctorService = async (inputData) => {
       !inputData.doctorId ||
       !inputData.contentHTML ||
       !inputData.contentMarkdown ||
-      !inputData.description
+      !inputData.description ||
+      !inputData.clinicId ||
+      !inputData.specialtyId
     ) {
       return {
         errorCode: 1,
@@ -72,7 +74,6 @@ export const postInfoDoctorService = async (inputData) => {
       };
     }
 
-    // --- Xử lý Markdown ---
     let doctorMarkdown = await db.Markdown.findOne({
       where: { doctorId: inputData.doctorId },
       raw: false
@@ -101,17 +102,17 @@ export const postInfoDoctorService = async (inputData) => {
     });
 
     if (doctorInfo) {
-      // Update nếu đã có
       doctorInfo.priceId = inputData.priceId;
       doctorInfo.provinceId = inputData.provinceId;
       doctorInfo.paymentId = inputData.paymentId;
       doctorInfo.addressClinic = inputData.addressClinic;
       doctorInfo.nameClinic = inputData.nameClinic;
       doctorInfo.note = inputData.note;
+      doctorInfo.clinicId = inputData.clinicId;
+      doctorInfo.specialtyId = inputData.specialtyId;
       doctorInfo.count = inputData.count || doctorInfo.count; // giữ count cũ nếu chưa có
       await doctorInfo.save();
     } else {
-      // Tạo mới
       await db.DoctorInfo.create({
         doctorId: inputData.doctorId,
         priceId: inputData.priceId,
@@ -119,6 +120,9 @@ export const postInfoDoctorService = async (inputData) => {
         paymentId: inputData.paymentId,
         addressClinic: inputData.addressClinic,
         nameClinic: inputData.nameClinic,
+        clinicId: inputData.clinicId,
+        specialtyId: inputData.specialtyId,
+
         note: inputData.note,
         count: inputData.count || 0
       });
@@ -192,6 +196,11 @@ export const getInfoDoctorService = async (inputId) => {
               attributes: ["valueEn", "valueVi"],
             },
 
+            {
+              model: db.Specialty,
+              as: "specialtyData",
+              attributes: ['id', "name"],
+            },
           ],
         }
       ],
