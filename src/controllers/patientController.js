@@ -17,7 +17,7 @@ export const postBookAppointment = async (req, res) => {
     // 1. Tạo user nếu chưa có
     const [user] = await db.User.findOrCreate({
       where: { email },
-      defaults: { email, roleId: "R3", fullName },
+      defaults: { email, roleId: "R3", firstName, lastName },
     });
 
     // 2. Tạo token xác nhận

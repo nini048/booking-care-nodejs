@@ -67,6 +67,11 @@ export const getDoctorsBySpecialtyService = async (specialtyId) => {
                   model: db.Allcode,
                   as: "positionData",
                   attributes: ["valueEn", "valueVi"]
+                },
+                {
+                  model: db.Markdown,
+                  as: 'markdownData',
+                  attributes: ['contentHTML', 'contentMarkdown']
                 }
 
               ]
