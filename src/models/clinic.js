@@ -15,12 +15,14 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: DataTypes.STRING,
       address: DataTypes.STRING,
-      description: DataTypes.TEXT,
       image: DataTypes.STRING,
+      contentHTML: DataTypes.TEXT('long'),
+      contentMarkdown: DataTypes.TEXT,
     },
     {
       sequelize,
       modelName: "Clinic",
+      tableName: 'Clinic'
     }
   );
   return Clinic;
