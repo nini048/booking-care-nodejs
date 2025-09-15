@@ -1,4 +1,5 @@
 import db from "../models"
+import clinic from "../models/clinic"
 export const postNewClinicService = async (data) => {
 
   try {
@@ -45,6 +46,56 @@ export const getAllClinicService = async () => {
   catch (e) {
 
     console.error("ERROR getAllClinicService:", e.message || e);
+    return {
+      errorCode: -1,
+      message: 'Database error / Lỗi từ DB'
+    };
+  }
+}
+
+export const getDoctorsByClinicService = async (clinicId) => {
+  try {
+    let doctors = await db.Clinic.findOne({
+      where: { id: clinicId },
+      include: [
+        {
+          model: db.DoctorInfo,
+          as: "clinicData",
+          include: [
+            {
+              model: db.User,
+              as: "doctorData",
+              attributes: ["id", "firstName", "lastName", 'image'],
+              include: [
+                {
+                  model: db.Allcode,
+                  as: "positionData",
+                  attributes: ["valueEn", "valueVi"]
+                },
+                {
+                  model: db.Markdown,
+                  as: 'markdownData',
+                  attributes: ['contentHTML', 'contentMarkdown', 'description']
+                }
+
+              ]
+            },
+
+          ],
+        }
+      ],
+      raw: false,
+      nest: true
+    })
+    return {
+      errorCode: 0,
+      message: "Get doctors of clinic successfully / Lấy thông tin bác sĩ của phòng khám thành công",
+      data: doctors
+    };
+  }
+  catch (e) {
+
+    console.error("ERROR getDoctorsByClinicService:", e.message || e);
     return {
       errorCode: -1,
       message: 'Database error / Lỗi từ DB'

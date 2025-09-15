@@ -9,7 +9,7 @@ import {
 import upload from "../uploads/upload";
 import { confirmBooking, postBookAppointment } from "../controllers/patientController";
 import { getAllSpecialty, getDoctorsBySpecialty, postNewSpecialty } from "../controllers/specialtyController";
-import { getAllClinic, postNewClinic } from '../controllers/clinicController.js'
+import { getAllClinic, getDoctorsByClinic, postNewClinic } from '../controllers/clinicController.js'
 
 
 let router = express.Router();
@@ -40,6 +40,7 @@ const initWebRoutes = (app) => {
   router.get('/api/get-all-specialty', getAllSpecialty)
   router.get('/api/get-all-clinic', getAllClinic)
   router.get('/api/get-doctors-by-specialty', getDoctorsBySpecialty)
+  router.get('/api/get-doctors-by-clinic', getDoctorsByClinic)
   return app.use('/', router)
 
 }

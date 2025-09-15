@@ -116,8 +116,6 @@ export const postInfoDoctorService = async (inputData) => {
       doctorInfo.priceId = inputData.priceId;
       doctorInfo.provinceId = inputData.provinceId;
       doctorInfo.paymentId = inputData.paymentId;
-      doctorInfo.addressClinic = inputData.addressClinic;
-      doctorInfo.nameClinic = inputData.nameClinic;
       doctorInfo.note = inputData.note;
       doctorInfo.clinicId = inputData.clinicId;
       doctorInfo.specialtyId = inputData.specialtyId;
@@ -129,8 +127,6 @@ export const postInfoDoctorService = async (inputData) => {
         priceId: inputData.priceId,
         provinceId: inputData.provinceId,
         paymentId: inputData.paymentId,
-        addressClinic: inputData.addressClinic,
-        nameClinic: inputData.nameClinic,
         clinicId: inputData.clinicId,
         specialtyId: inputData.specialtyId,
 
@@ -183,8 +179,6 @@ export const getInfoDoctorService = async (inputId) => {
             'priceId',
             'paymentId',
             'provinceId',
-            'addressClinic',
-            'nameClinic',
             'note',
             'count',
             'createdAt',
@@ -212,6 +206,11 @@ export const getInfoDoctorService = async (inputId) => {
               as: "specialtyData",
               attributes: ['id', "name"],
             },
+            {
+              model: db.Clinic,
+              as: "clinicData",
+              attributes: ['id', 'name', 'address']
+            }
           ],
         }
       ],
