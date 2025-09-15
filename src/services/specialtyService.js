@@ -71,7 +71,7 @@ export const getDoctorsBySpecialtyService = async (specialtyId) => {
                 {
                   model: db.Markdown,
                   as: 'markdownData',
-                  attributes: ['contentHTML', 'contentMarkdown']
+                  attributes: ['contentHTML', 'contentMarkdown', 'description']
                 }
 
               ]
