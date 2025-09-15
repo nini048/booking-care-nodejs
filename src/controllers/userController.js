@@ -66,13 +66,16 @@ let handleCreateNewUser = async (req, res) => {
 let handleEditUser = async (req, res) => {
   let id = req.params?.id
   let data = req?.body
+  let file = req.file;
   if (!id) {
     return res.status(200).json({
       errorCode: 1,
       message: 'Missing parameter (id) / Thiếu tham số (id)'
     })
   }
-
+  if (file) {
+    data.image = file.filename;
+  }
   let message = await editUser(id, data)
   return res.status(201).json(message)
 }

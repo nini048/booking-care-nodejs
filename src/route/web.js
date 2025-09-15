@@ -24,7 +24,7 @@ const initWebRoutes = (app) => {
   router.post('/api/login', handleLogin)
   router.get('/api/get-all-users', handleGetAllUsers)
   router.post('/api/create-new-user', upload.single("image"), handleCreateNewUser)
-  router.put('/api/edit-user/:id', handleEditUser)
+  router.put('/api/edit-user/:id', upload.single("image"), handleEditUser)
   router.delete('/api/delete-user/:id', handleDeleteUser)
   router.get('/allcode', getAllCode)
   router.get('/api/top-doctor-home', getTopDoctorHome)

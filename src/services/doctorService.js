@@ -13,7 +13,18 @@ export const getTopDoctorHomeService = async (limitInput) => {
       },
       include: [
         { model: db.Allcode, as: 'positionData', attributes: ['valueEn', 'valueVi'] },
-        { model: db.Allcode, as: 'genderData', attributes: ['valueEn', 'valueVi'] }
+        { model: db.Allcode, as: 'genderData', attributes: ['valueEn', 'valueVi'] },
+        {
+          model: db.DoctorInfo,
+          as: 'doctorInfo',
+          include: [
+            {
+              model: db.Specialty,
+              as: 'specialtyData',
+              attributes: ['id', 'name']
+            }
+          ]
+        }
       ],
       raw: true,
       nest: true

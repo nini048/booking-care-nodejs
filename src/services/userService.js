@@ -116,6 +116,7 @@ export const editUser = async (userId, data) => {
     }
     catch (e) {
 
+      console.error("ERROR editUser:", e.message || e);
       resolve({
         errorCode: 3,
         message: 'Update failed / Cập nhật thất bại'
