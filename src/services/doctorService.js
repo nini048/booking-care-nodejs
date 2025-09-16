@@ -91,7 +91,6 @@ export const postInfoDoctorService = async (inputData) => {
     });
 
     if (doctorMarkdown) {
-      // Update nếu đã có
       doctorMarkdown.contentHTML = inputData.contentHTML;
       doctorMarkdown.contentMarkdown = inputData.contentMarkdown;
       doctorMarkdown.description = inputData.description;
@@ -106,7 +105,6 @@ export const postInfoDoctorService = async (inputData) => {
       });
     }
 
-    // --- Xử lý Doctor_Info ---
     let doctorInfo = await db.DoctorInfo.findOne({
       where: { doctorId: inputData.doctorId },
       raw: false
@@ -119,7 +117,7 @@ export const postInfoDoctorService = async (inputData) => {
       doctorInfo.note = inputData.note;
       doctorInfo.clinicId = inputData.clinicId;
       doctorInfo.specialtyId = inputData.specialtyId;
-      doctorInfo.count = inputData.count || doctorInfo.count; // giữ count cũ nếu chưa có
+      doctorInfo.count = inputData.count || doctorInfo.count;
       await doctorInfo.save();
     } else {
       await db.DoctorInfo.create({
@@ -129,7 +127,6 @@ export const postInfoDoctorService = async (inputData) => {
         paymentId: inputData.paymentId,
         clinicId: inputData.clinicId,
         specialtyId: inputData.specialtyId,
-
         note: inputData.note,
         count: inputData.count || 0
       });
